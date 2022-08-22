@@ -1,4 +1,4 @@
-class Person 
+class Person
   def initialize(id, age, name = 'Unknown', parent_permission: true)
     @id = id
     @age = age
@@ -17,7 +17,7 @@ class Person
   # private method
   private
 
-  def is_of_age?
+  def of_age?
     @age >= 18
   end
 end
