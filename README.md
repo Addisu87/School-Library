@@ -33,9 +33,7 @@ To get a local copy up and running follow these simple example steps.
 
 ### Install
 
--- Ruby
-
-### Run tests
+-- Run this command on your terminal to install all the dependencies: bundle install
 
 ## Author
 
