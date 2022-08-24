@@ -138,7 +138,13 @@ class App
     run
   end
 
-  def list_all_rentals
+  def list_all_rentals(person_id)
+    rentals = @rentals[person_id] || []
+    puts 'Rentals: '
+    puts 'No rentals under this ID' if rentals.empty?
+    rentals.each do |rental|
+      puts "Date: #{rental.date}, Book: \"#{rental.book.title}\" by #{rental.book.author}, Rented by: #{rental.person.name}"
+    end
     run
   end
 end
