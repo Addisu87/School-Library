@@ -65,7 +65,7 @@ class App
     else
       puts 'There are no people registered at the moment.'
     end
-    gets.comp
+    gets.chomp
     run
   end
 
