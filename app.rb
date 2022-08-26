@@ -69,7 +69,7 @@ class App
     run
   end
 
-  def permission_options(my_char)
+  def perm_options(my_char)
     case my_char
     when 'N'
       false
@@ -96,7 +96,7 @@ class App
     name = gets.chomp.capitalize
     print 'Has parent permission? [Y/N]: '
     permission = gets.chomp
-    student = Student.new(age, name, permission, nil)
+    student = Student.new(age, name, perm_options(permission), nil)
     @people.push(student)
   end
 
