@@ -128,20 +128,20 @@ class App
   def create_rental
     puts '\nSelect a book from the following list by number'
     list_all_books
-    book_idx = gets.chomp.to_i
+    book_id = gets.chomp.to_i
     puts '\nSelect a person from the following list by number'
     list_all_people
-    person_idx = gets.chomp.to_i
+    person_id = gets.chomp.to_i
     print '\n Date(yyyy/mm/dd): '
     rental_date = gets.chomp
-    new_rental = Rental.new(rental_date, @books[book_idx.to_i], @people[person_idx.to_i])
+    new_rental = Rental.new(rental_date, @books[book_id], @people[person_id])
     @rentals.push(new_rental)
     puts 'Rental added successfully!'
     run
   end
 
-  def list_all_rentals(person_id)
-    rentals = @rentals[person_id] || []
+  def list_all_rentals
+    rentals = @rentals.select { |rental| rental.person.id == person_id }
     puts 'Rentals: '
     puts 'No rentals under this ID' if rentals.empty?
     rentals.each do |r|
