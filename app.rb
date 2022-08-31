@@ -3,6 +3,8 @@ require_relative './book'
 require_relative './student'
 require_relative './teacher'
 require_relative './rental'
+require_relative 'preserve_file'
+require 'json'
 
 class App
   attr_reader :people, :books, :rentals
@@ -11,6 +13,64 @@ class App
     @people = []
     @books = []
     @rentals = []
+    @store_file = PreserveFile.new
+    load_people
+    load_books
+    load_rentals
+  end
+
+  def load_people
+    stored_people = @store_file.read_json('data/person.json')
+    stored_people.map do |p|
+      case p['type']
+      when 'student'
+        @persons << Student.new(p['age'], p['classroom'], p['name'], p['id'], parent_permission: p['permission'])
+      when 'teacher'
+        @persons << Teacher.new(p['age'], p['specialization'], p['name'], p['id'])
+      end
+    end
+  end
+
+  def load_books
+    stored_books = @store_file.read_json('data/book.json')
+    stored_books.map do |book|
+      @books.push(Book.new(book['title'], book['author']))
+    end
+  end
+
+  def load_rentals
+    stored_rental = @store_file.read_json('data/rent.json')
+    stored_rental.each do |rental|
+      person = @persons.find { |p| p.id == rental['person_id'] }
+      book = @books.find { |b| b.title == rental['book_title'] }
+      @rentals.push(Rental.new(rental['date'], book, person))
+    end
+  end
+
+  def add_rent_data
+    rental_collection = @rentals.map do |r|
+      { date: r.date, person_id: r.person.id, name: r.person.name, book_title: r.book.title, book_id: r.book.id }
+    end
+    @store_file.save_to_json(rental_collection, 'data/rent.json')
+  end
+
+  def add_people_data
+    people_collection = @persons.map do |person|
+      if person.instance_of?(Student)
+        { type: 'student', id: person.id, age: person.age, name: person.name,
+          parent_permission: person.parent_permission }
+      else
+        { type: 'teacher', id: person.id, age: person.age, name: person.name, specialization: person.specialization }
+      end
+    end
+    @store_file.save_to_json(people_collection, 'data/person.json')
+  end
+
+  def add_book_data
+    book_collection = @books.map do |book|
+      { title: book.title, author: book.author, id: book.id }
+    end
+    @store_file.save_to_json(book_collection, 'data/book.json')
   end
 
   def menu
@@ -61,7 +121,9 @@ class App
   def list_all_people
     if @people.size.positive?
       puts 'Here are the people registered at the moment: '
-      @people.each_with_index { |p, index| puts "#{index}) [#{p.class.name}] Name: #{p.name}, ID: #{p.id}, Age: #{p.age}" }
+      @people.each_with_index do |p, index|
+        puts "#{index}) [#{p.class.name}] Name: #{p.name}, ID: #{p.id}, Age: #{p.age}"
+      end
     else
       puts 'There are no people registered at the moment.'
     end
