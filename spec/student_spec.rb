@@ -2,13 +2,14 @@ require_relative '../student'
 
 describe 'Student' do
   before(:each) do
-    @student = Student.new(24, 'Menanya Morris', 'true')
+    @student = Student.new(24, 'Menanya Morris', 'true', 'A')
   end
 
   it 'Take age, name and parent_permission' do
     expect(@student.age).to eq 24
     expect(@student.name).to eq 'Menanya Morris'
     expect(@student.parent_permission).to eq 'true'
+    expect(@student.classroom).to eq 'A'
   end
 
   it 'should return "¯\(ツ)/¯" when calling play_hooky' do

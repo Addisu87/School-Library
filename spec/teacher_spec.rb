@@ -4,14 +4,14 @@ require_relative '../person'
 describe Teacher do
   context 'When testing the Teacher class' do
     it 'Has return true when we call the can_use_services? method' do
-      teacher = Teacher.new(36, 'Addisu', 'specialization')
+      teacher = Teacher.new(36, 'Addisu', 'true', 'specialization')
       response = teacher.can_use_services?
-      expect(response).to eq true 
+      expect(response).to eq true
     end
 
-    it 'Has create an instance of Person when creating a Teacher' do 
-      teacher = Teacher.new(36, 'Addisu', 'specialization')
-      expect(teacher).to be_a Person  
+    it 'Has create an instance of Person when creating a Teacher' do
+      teacher = Teacher.new(36, 'Addisu', 'true', 'specialization')
+      expect(teacher).to be_a Person
     end
   end
 end
