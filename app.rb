@@ -61,7 +61,7 @@ class App
   def list_all_people
     if @people.size.positive?
       puts 'Here are the people registered at the moment: '
-      @people.each_with_index { |p, index| puts "#{index}) [#{p.class}] Name: #{p.name}, ID: #{p.id}, Age: #{p.age}" }
+      @people.each_with_index { |p, index| puts "#{index}) [#{p.class.name}] Name: #{p.name}, ID: #{p.id}, Age: #{p.age}" }
     else
       puts 'There are no people registered at the moment.'
     end
@@ -133,7 +133,7 @@ class App
     list_all_people
     person_id = gets.chomp.to_i
     print '\n Date(yyyy/mm/dd): '
-    rental_date = gets.chomp
+    rental_date = gets.chomp.to_s
     new_rental = Rental.new(rental_date, @books[book_id], @people[person_id])
     @rentals.push(new_rental)
     puts 'Rental added successfully!'
