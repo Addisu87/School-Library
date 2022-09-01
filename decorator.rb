@@ -1,9 +1,11 @@
-require_relative './nameable'
+require_relative 'nameable'
 
 class Decorator < Nameable
+  attr_accessor :nameable_object
+
   def initialize(nameable_object)
-    @namable_object = nameable_object
     super()
+    @nameable_object = nameable_object
   end
 
   def correct_name
