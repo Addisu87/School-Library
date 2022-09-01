@@ -61,7 +61,9 @@ class App
   def list_all_people
     if @people.size.positive?
       puts 'Here are the people registered at the moment: '
-      @people.each_with_index { |p, index| puts "#{index}) [#{p.class.name}] Name: #{p.name}, ID: #{p.id}, Age: #{p.age}" }
+      @people.each_with_index do |p, index|
+        puts "#{index}) [#{p.class.name}] Name: #{p.name}, ID: #{p.id}, Age: #{p.age}"
+      end
     else
       puts 'There are no people registered at the moment.'
     end
