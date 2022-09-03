@@ -12,9 +12,9 @@ class CreatePerson
     gets
   end
 
-  def inputs_student 
+  def inputs_student
     print 'Age: '
-    age = gets.chomp
+    age = gets.chomp.to_i
     print 'Name: '
     name = gets.chomp.capitalize
     print 'Has parent permission? [Y/N]: '
@@ -35,9 +35,9 @@ class CreatePerson
     student
   end
 
-  def inputs_teacher 
+  def inputs_teacher
     print 'Age: '
-    age = gets.chomp
+    age = gets.chomp.to_i
     print 'Name: '
     name = gets.chomp.capitalize
     print 'Specialization: '

@@ -10,8 +10,7 @@ class CreateBook
   def create_book
     title, author = inputs
     new_book = Book.new(title, author)
-    @books.push(new_book)
     puts "Book #{title} created successfully!"
-    run
+    new_book
   end
 end
