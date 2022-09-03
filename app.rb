@@ -3,6 +3,8 @@ require_relative './book'
 require_relative './student'
 require_relative './teacher'
 require_relative './rental'
+require_relative './create_person'
+require_relative './create_book'
 require_relative 'preserve_file'
 require 'json'
 
@@ -131,59 +133,13 @@ class App
     run
   end
 
-  def perm_options(my_char)
-    case my_char
-    when 'N'
-      false
-    when 'Y'
-      true
-    end
-  end
-
-  def create_teacher
-    print 'Age: '
-    age = gets.chomp
-    print 'Name: '
-    name = gets.chomp.capitalize
-    print 'Specialization: '
-    specialization = gets.chomp
-    teacher = Teacher.new(age, name, nil, specialization)
-    @people.push(teacher)
-  end
-
-  def create_student
-    print 'Age: '
-    age = gets.chomp
-    print 'Name: '
-    name = gets.chomp.capitalize
-    print 'Has parent permission? [Y/N]: '
-    permission = gets.chomp
-    student = Student.new(age, name, perm_options(permission), nil)
-    @people.push(student)
-  end
-
   def create_person
-    print 'Do you want to create a student (1) or a teacher (2)? [Input the number]: '
-    person_type = gets.chomp
-    case person_type
-    when '1'
-      create_student
-    when '2'
-      create_teacher
-    end
-    print 'Person created successfully!'
-    gets
+    @people << CreatePerson.new.create_person
     run
   end
 
   def create_book
-    puts 'Title:\t'
-    title = gets.chomp.capitalize
-    puts 'Author:\t'
-    author = gets.chomp.capitalize
-    new_book = Book.new(title, author)
-    @books.push(new_book)
-    puts 'Book created successfully!'
+    @books << CreateBook.new.create_book
     run
   end
 
