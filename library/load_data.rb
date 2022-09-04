@@ -1,44 +1,68 @@
 require_relative '../student'
 require_relative '../teacher'
 require_relative '../rental'
-require_relative '../preserve_file'
+require 'pry'
 
-def initialize_files
-  File.write('../data/book.json', '[]') unless File.exist?('../data/book.json')
-  File.write('../data/person.json', '[]') unless File.exist?('../data/person.json')
-  File.write('../data/rent.json', '[]') unless File.exist?('../data/rent.json')
-end
+class IOdata
+  def initialize(arg)
+    @type = arg
 
-def load_people
-  persons = []
-  stored_people = JSON.parse(File.read('../data/person.json'))
-  stored_people.each do |p|
-    case p['type']
-    when 'student'
-      @persons << Student.new(p['age'], p['name'], p['id'], parent_permission: p['permission'])
-    when 'teacher'
-      @persons << Teacher.new(p['age'], p['specialization'], p['name'], p['id'])
+    @file = case @type
+            when 'books'
+              '../data/books.json'
+            when 'people'
+              '../data/people.json'
+            when 'rentals'
+              '../data/rentals.json'
+            else
+              '../data/default.json'
+            end
+  end
+
+  def read
+    file = File.open(@file)
+    file_data = file.read
+    arr_books = []
+
+    if file_data != ''
+      data = JSON.parse(file_data)
+      arr_books = make_array(data)
     end
-  end
-  persons
-end
 
-def load_books
-  books = []
-  stored_books = JSON.parse(File.read('../data/book.json'))
-  stored_books.map do |book|
-    @books << Book.new(book['title'], book['author'])
+    close(file)
+    arr_books
   end
-  books
-end
 
-def load_rentals
-  rentals = []
-  stored_rental = JSON.parse(File.read('../data/rent.json'))
-  stored_rental.each do |rental|
-    person = @persons.select { |p| p.id == rental['person_id'] }
-    book = @books.select { |b| b.title == rental['book_title'] }
-    @rentals << Rental.new(rental['date'], book, person)
+  def write(data)
+    file = File.open(@file, 'w')
+    File.write(@file, JSON.pretty_generate(make_array(data)))
+    close(file)
   end
-  rentals
+
+  def make_array(data)
+    arr_items = []
+
+    data.each do |item|
+      case @type
+      when 'books'
+        arr_items << {
+          'id' => item['id'], 'title' => item['title'], 'author' => item['author']
+        }
+      when 'people'
+        arr_items << {
+          'id' => item['id'], 'name' => item['name'], 'age' => item['age'], 'type' => item['type']
+        }
+      when 'rentals'
+        arr_items << {
+          'id' => item['id'], 'book' => item['book'], 'person' => item['person'], 'date' => item['date']
+        }
+      end
+    end
+
+    arr_items
+  end
+
+  def close(file)
+    file.close
+  end
 end

@@ -15,7 +15,7 @@ def add_book_data
   end
 
   ruby = JSON.pretty_generate(book_collection)
-  File.write('../data/book.json', ruby.to_S)
+  File.write('../data/books.json', ruby.to_S)
 end
 
 def add_people_data
@@ -39,5 +39,5 @@ def add_rent_data
   end
 
   ruby = JSON.pretty_generate(rental_collection)
-  File.write('../data/rent.json', ruby.to_S)
+  File.write('../data/rentals.json', ruby.to_S)
 end

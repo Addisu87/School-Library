@@ -1,8 +1,13 @@
 class CreatePerson
   def create_person
-    print 'Do you want to create a student (1) or a teacher (2)? [Input the number]: '
-    person_type = gets.chomp
-    case person_type
+    puts 'Do you want to create
+    Student -> [1]
+    Teacher -> [2]
+    [Input a number]: '
+    
+    options = gets.chomp
+
+    case options
     when '1'
       create_student
     when '2'
@@ -13,6 +18,7 @@ class CreatePerson
   end
 
   def inputs_student
+    puts 'Create a new student'
     print 'Age: '
     age = gets.chomp.to_i
     print 'Name: '
@@ -26,7 +32,7 @@ class CreatePerson
     age, name, permission = inputs_student
     case permission
     when 'n'
-      student = Student.new(age, name, parent_permission: false)
+      student = Student.new(age, name, permission: false)
       puts 'Student doesnt have parent permission, cant rent books'
     when 'y'
       student = Student.new(age, name, permission: true)
@@ -36,6 +42,7 @@ class CreatePerson
   end
 
   def inputs_teacher
+    puts 'Create a new teacher'
     print 'Age: '
     age = gets.chomp.to_i
     print 'Name: '

@@ -14,9 +14,9 @@ class App
   attr_reader :people, :books, :rentals
 
   def initialize
-    @people = load_people
-    @books = load_books
-    @rentals = load_rentals
+    @books = IOdata.new('books')
+    @people = IOdata.new('people')
+    @rentals = IOdata.new('rentals')
   end
 
   def menu
